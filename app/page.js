@@ -1,95 +1,91 @@
+"use client"
+
 import Image from "next/image";
 import styles from "./page.module.css";
+import React, { useRef } from 'react'
 
 export default function Home() {
+
+  const canvas = useRef(null);
+  const ctx = canvas.getContext("2d");
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  
+  
+  
+  var centerX = canvas.width / 2;
+  var centerY = canvas.height / 2;
+  var radius = 200;
+  var zodiacSymbols = ["Pisces", "Aquarius", "Capricorn", "Sagittarius", "Scorpio", "Libra", "Virgo", "Leo", "Cancer", "Gemini", "Taurus", "Aries"];
+  var zodiacColors = ["#6b8e23", "#556b2f", "#8b4513", "#8b0000", "#a52a2a", "#ee82ee", "#4b0082", "#0000ff", "#00ff00", "#ffff00", "#ffa500", "#ff0000"];
+  
+      
+      ctx.translate(centerX, centerY)
+      ctx.rotate(aries * Math.PI / 180)
+  
+      // Draw the outer circle
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+      ctx.stroke();
+  
+      // Draw the inner circle
+      ctx.beginPath();
+      ctx.arc(0, 0, radius - 20, 0, 2 * Math.PI);
+      ctx.stroke();
+  
+      // Draw the lines dividing the charinto 12 equal parts
+      for (var i = 0; i < 12; i++) {
+          ctx.save();
+          //ctx.translate(centerX, centerY);
+          ctx.rotate((i * 30) * Math.PI / 180);
+          console.log(planetData, aries)
+          ctx.beginPath();
+          ctx.moveTo(0, -radius);
+          ctx.lineTo(0, -radius + 20);
+          ctx.stroke();
+          //ctx.rotate(aries * Math.PI / 180);
+          //console.log(aries)
+          ctx.restore();
+      }
+  
+      // Draw the zodiac symbols
+      for (var i = 0; i < 12; i++) {
+          ctx.save();
+          //ctx.translate(centerX, centerY);
+          ctx.rotate((i * 30 + 15 + 180) * Math.PI / 180);
+          ctx.fillStyle = zodiacColors[i];
+          ctx.fillText(zodiacSymbols[i], 0, -radius + 12);
+          ctx.restore();
+      }
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  ctx.beginPath();
+  ctx.arc(canvas.width / 2, canvas.height / 2, 50, 0, 2 * Math.PI, false);
+  
+  
+  for (const planet of planetData) {
+    ctx.save();
+    const radians = (90 + planet.skyPos) * Math.PI / 180;
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(radians);
+    ctx.fillStyle = planet.color;
+    ctx.fillRect(150, -10, 20, 20);
+    ctx.fillText(planet.bodyName, 100, 0)
+    ctx.restore();
+    //console.log(planetDataPre)
+  }
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <canvas ref={canvas} width="500" height="400"></canvas>
     </main>
   );
 }
