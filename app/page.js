@@ -1,17 +1,15 @@
 "use client";
 
-import Image from "next/image";
 import styles from "./page.module.css";
 import React from "react";
 import CelestialBody from "./components/CelestialBody";
 const dummyData = [
-	{ name: "test", deg: 10 },
+	{ name: "test", deg: 10, color: "red" },
 	{ name: "test", deg: 15 },
 	{ name: "test", deg: 45 },
 	{ name: "test", deg: 35 },
 	{ name: "test", deg: 83 },
 ];
-
 export default function Home() {
 	return (
 		<main className={styles.main}>
@@ -56,11 +54,13 @@ export default function Home() {
 						</li>
 					</ul>
 					<div className={styles.innerCircle}>
-						<ul>
-							{dummyData.map((data, index) => {
-								return <CelestialBody data={data} index={index} />;
-							})}
-						</ul>
+						{dummyData && (
+							<ul>
+								{dummyData.map((data, index) => {
+									return <CelestialBody data={data} index={index} />;
+								})}
+							</ul>
+						)}
 					</div>
 				</div>
 			</div>
