@@ -2,14 +2,22 @@
 
 import Image from "next/image";
 import styles from "./page.module.css";
-import React, { useRef, useEffect } from "react";
+import React from "react";
+import CelestialBody from "./components/CelestialBody";
+const dummyData = [
+	{ name: "test", deg: 10 },
+	{ name: "test", deg: 15 },
+	{ name: "test", deg: 45 },
+	{ name: "test", deg: 35 },
+	{ name: "test", deg: 83 },
+];
 
 export default function Home() {
 	return (
 		<main className={styles.main}>
 			<div>
-				<div class={styles.outerCircle}>
-					<ul class={styles.zodiac}>
+				<div className={styles.outerCircle}>
+					<ul className={styles.zodiac}>
 						<li>
 							<p>Pisces</p>
 						</li>
@@ -47,7 +55,13 @@ export default function Home() {
 							<p>Aries</p>
 						</li>
 					</ul>
-					<div class={styles.innerCircle}></div>
+					<div className={styles.innerCircle}>
+						<ul>
+							{dummyData.map((data, index) => {
+								return <CelestialBody data={data} index={index} />;
+							})}
+						</ul>
+					</div>
 				</div>
 			</div>
 		</main>
